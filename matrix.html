@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compatibility Matrix | substrate-attestation</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: #0a0a0a; color: #e0e0e0; line-height: 1.6; }
+  .container { max-width: 960px; margin: 0 auto; padding: 3rem 1.5rem; }
+  h1 { font-size: 1.3rem; font-weight: 500; color: #fff; letter-spacing: -0.02em; }
+  .subtitle { font-size: 0.7rem; color: #555; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 0.3rem; margin-bottom: 2.5rem; }
+  .updated { font-size: 0.65rem; color: #444; font-family: 'JetBrains Mono', monospace; margin-bottom: 2rem; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  th { text-align: left; font-size: 0.6rem; color: #555; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.6rem 0.8rem; border-bottom: 1px solid #1a1a1a; }
+  td { padding: 0.7rem 0.8rem; border-bottom: 1px solid #111; vertical-align: top; }
+  tr:hover { background: #0f0f0f; }
+  .project { color: #fff; font-weight: 500; }
+  .actor { color: #666; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; }
+  .suite { color: #888; font-size: 0.75rem; }
+  .result { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 600; }
+  .pass { color: #4ade80; }
+  .pending { color: #fbbf24; }
+  .external { color: #60a5fa; }
+  .type-badge { display: inline-block; font-size: 0.6rem; padding: 0.15rem 0.4rem; border-radius: 3px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.03em; }
+  .type-self { background: #1a2e1a; color: #4ade80; }
+  .type-external { background: #1a1a2e; color: #60a5fa; }
+  .type-crest { background: #2e1a2e; color: #c084fc; }
+  .type-corpus { background: #1a2e2e; color: #22d3ee; }
+  .type-pending { background: #2e2a1a; color: #fbbf24; }
+  .notes { font-size: 0.7rem; color: #555; max-width: 280px; }
+  a { color: #4a9eff; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid #1a1a1a; font-size: 0.65rem; color: #333; font-family: 'JetBrains Mono', monospace; }
+  .legend { margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.65rem; color: #666; }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .dot-pass { background: #4ade80; }
+  .dot-pending { background: #fbbf24; }
+  .dot-external { background: #60a5fa; }
+  .dot-corpus { background: #22d3ee; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Compatibility Matrix</h1>
+  <div class="subtitle">substrate-attestation conformance surface</div>
+  <div class="updated" id="updated"></div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Project</th>
+        <th>Type</th>
+        <th>Suite</th>
+        <th>Result</th>
+        <th>Verified</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody id="matrix-body"></tbody>
+  </table>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot dot-pass"></div> Verified PASS</div>
+    <div class="legend-item"><div class="legend-dot dot-external"></div> External run (self-reported)</div>
+    <div class="legend-item"><div class="legend-dot dot-corpus"></div> External corpus (referenced)</div>
+    <div class="legend-item"><div class="legend-dot dot-pending"></div> Pending</div>
+  </div>
+
+  <div class="footer">
+    <p>Crest Deployment Systems LLC. Neutral verification layer.</p>
+    <p style="margin-top: 0.3rem;">Source: <a href="https://github.com/andysalvo/substrate-attestation/blob/main/matrix.json">matrix.json</a> | <a href="https://github.com/andysalvo/substrate-attestation/blob/main/FIXTURE_SCHEMA.md">fixture schema</a> | <a href="https://github.com/andysalvo/substrate-attestation/blob/main/fixtures/contrib/">contribute</a></p>
+  </div>
+</div>
+
+<script>
+const TYPE_CLASSES = {
+  'self-test': 'type-self',
+  'crest-verified': 'type-crest',
+  'external-run': 'type-external',
+  'external-corpus': 'type-corpus',
+  'pending-contribution': 'type-pending'
+};
+
+const TYPE_LABELS = {
+  'self-test': 'self-test',
+  'crest-verified': 'crest-verified',
+  'external-run': 'external',
+  'external-corpus': 'corpus',
+  'pending-contribution': 'pending'
+};
+
+function resultClass(entry) {
+  if (entry.type === 'pending-contribution') return 'pending';
+  if (entry.vectors && entry.vectors.pass === entry.vectors.total && entry.vectors.total > 0) return 'pass';
+  if (entry.type === 'external-corpus') return 'external';
+  return '';
+}
+
+function formatDate(iso) {
+  if (!iso) return '--';
+  const d = new Date(iso);
+  return d.toISOString().slice(0, 10);
+}
+
+function truncate(s, n) {
+  if (!s) return '';
+  return s.length > n ? s.slice(0, n) + '...' : s;
+}
+
+fetch('https://raw.githubusercontent.com/andysalvo/substrate-attestation/main/matrix.json')
+  .then(r => r.json())
+  .then(data => {
+    document.getElementById('updated').textContent = 'Updated: ' + data.updated_at;
+    const tbody = document.getElementById('matrix-body');
+    data.entries.forEach(e => {
+      const tr = document.createElement('tr');
+      const rc = resultClass(e);
+      tr.innerHTML = `
+        <td>
+          <div class="project">${e.url ? '<a href="' + e.url + '">' + e.project + '</a>' : e.project}</div>
+          <div class="actor">@${e.actor}</div>
+        </td>
+        <td><span class="type-badge ${TYPE_CLASSES[e.type] || ''}">${TYPE_LABELS[e.type] || e.type}</span></td>
+        <td class="suite">${e.suite}</td>
+        <td class="result ${rc}">${e.result}</td>
+        <td style="font-size:0.75rem;color:#666">${formatDate(e.verified_at)}</td>
+        <td class="notes">${truncate(e.notes, 80)}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  })
+  .catch(() => {
+    document.getElementById('matrix-body').innerHTML = '<tr><td colspan="6" style="color:#f87171">Failed to load matrix.json</td></tr>';
+  });
+</script>
+</body>
+</html>
