@@ -1,0 +1,28 @@
+{
+  "schema": "crest-verification-receipt-v1",
+  "report_id": "CVR-2026-011",
+  "subject": "CTEF action_ref near-miss vectors v0",
+  "subject_url": "https://agentgraph.co/.well-known/action-ref-near-miss-vectors.json",
+  "subject_commit": "agentgraph-co/agentgraph@a07cdf8",
+  "verifier": "did:web:verify.crestsystems.ai",
+  "verified_at": "2026-05-31T21:10:00Z",
+  "suite": {
+    "name": "CTEF near-miss structure validation",
+    "vector_count": 3,
+    "failure_modes": [
+      "AMBIGUOUS_ISSUER_BINDING",
+      "RESCOPED_REPLAY",
+      "SEMANTIC_DRIFT"
+    ]
+  },
+  "result": {
+    "status": "PASS",
+    "total": 3,
+    "well_formed": 3,
+    "incomplete": 0
+  },
+  "verification_scope": "Structure validation only. Each vector has preimage blocks, expected result (fail-closed), rationale, and receipt fields. Crest verified well-formedness and completeness, not implementation behavior.",
+  "content_hash_of_source": "sha256:78fcd888b2a3a649c4de99cae0c1af6f639c1b79866b1c7f6e5fc91368b37e32",
+  "notes": "Near-miss vectors test failure detection, not hash computation. All 3 are well-formed with complete preimage/envelope/rationale/receipt structures.",
+  "content_hash": "sha256:6acab926b8d829861f2cc471e4220d1e72cbf615ab9c2b15244e24e1c6e98485"
+}

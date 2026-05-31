@@ -1,0 +1,24 @@
+{
+  "schema": "crest-verification-receipt-v1",
+  "report_id": "CVR-2026-012",
+  "subject": "AlgoVoi action_ref namespace v0 vectors",
+  "subject_url": "https://github.com/chopmob-cloud/algovoi-jcs-conformance-vectors",
+  "subject_commit": "main (retrieved 2026-05-31)",
+  "verifier": "did:web:verify.crestsystems.ai",
+  "verified_at": "2026-05-31T21:15:00Z",
+  "suite": {
+    "name": "action_ref_namespace_v0 JCS+SHA-256 cross-validation",
+    "vector_count": 8,
+    "method": "Recomputed SHA-256(JCS(preimage)) for each vector and compared to expected_action_ref"
+  },
+  "result": {
+    "status": "PASS",
+    "total": 8,
+    "pass": 8,
+    "fail": 0
+  },
+  "verification_scope": "Byte-level JCS canonicalization and SHA-256 hash match. Crest independently recomputed each action_ref from the published preimage and confirmed byte-identical output.",
+  "content_hash_of_source": "sha256:e95bfb171cffb3ae6b7f3e842ea39b35b6e975ff6d5d31928430ab30fd08617c",
+  "notes": "Cross-validation of AlgoVoi JCS corpus against Crest Python JCS implementation.",
+  "content_hash": "sha256:d0eb659ed6e6d5db87acca17170270852f625ebe3b3537649c6da100d2b06701"
+}

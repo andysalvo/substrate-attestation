@@ -1,0 +1,37 @@
+{
+  "schema": "crest-verification-receipt-v1",
+  "report_id": "CVR-2026-010",
+  "subject": "substrate_attestation conformance suite v0.2",
+  "subject_url": "https://github.com/andysalvo/substrate-attestation",
+  "subject_commit": "ed0e1e2",
+  "verifier": "did:web:verify.crestsystems.ai",
+  "verified_at": "2026-05-31T21:02:42Z",
+  "suite": {
+    "name": "substrate_attestation v0.2",
+    "fixture_count": 24,
+    "categories": [
+      "format",
+      "verdict-binding",
+      "key-rotation"
+    ],
+    "validator": "validate.py @ commit ed0e1e2"
+  },
+  "result": {
+    "status": "PASS",
+    "total": 24,
+    "pass": 24,
+    "fail": 0,
+    "skip": 0
+  },
+  "applicable_to": [
+    {
+      "implementation": "Agent OS (SRA Reference Implementation)",
+      "contact": "Liuyanfeng1234",
+      "self_reported": "24/24 PASS on A2A #1734 (2026-05-31T16:40:09Z)",
+      "crest_independent_run": "24/24 PASS (same suite, same commit)",
+      "note": "Agent OS self-reported running this exact suite. Crest independently confirms the suite produces 24/24 PASS. This verifies the suite; Agent OS endpoint conformance is a separate verification."
+    }
+  ],
+  "notes": "Independent run of the substrate_attestation conformance suite.",
+  "content_hash": "sha256:38d9e74440ce10652b21b6b650e5f3dc7ee36c4ad4ba72161efbe5b19abae19a"
+}

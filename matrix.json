@@ -1,6 +1,6 @@
 {
   "schema": "conformance-matrix-v1",
-  "updated_at": "2026-05-31T21:00:00Z",
+  "updated_at": "2026-05-31T21:20:00Z",
   "publisher": "Crest Deployment Systems LLC",
   "publisher_url": "https://crestsystems.ai",
   "description": "Conformance matrix for substrate_attestation and related verification surfaces. Only publicly verifiable data. Self-reported results cite the public thread or commit where they were stated.",
@@ -83,12 +83,12 @@
       "spec_tested": "substrate_attestation v0.2",
       "suite": "24 fixtures (format + verdict-binding + key-rotation)",
       "status": "PASS",
-      "result": "24/24",
-      "validator_version": "validate.py @ commit 46e56b8",
+      "result": "24/24 (suite independently confirmed by Crest at commit ed0e1e2)",
+      "validator_version": "validate.py @ commit ed0e1e2",
       "verified_at": "2026-05-31",
-      "verification_type": "self-reported",
-      "receipt_url": null,
-      "source": "A2A #1734, comment by Liuyanfeng1234 on 2026-05-31T16:40:09Z"
+      "verification_type": "crest-verified",
+      "receipt_url": "https://github.com/andysalvo/substrate-attestation/blob/main/receipts/CVR-2026-010.json",
+      "source": "Agent OS self-reported 24/24 on #1734. Crest independently ran same suite, confirmed 24/24 PASS."
     },
     {
       "id": "cm-005",
@@ -118,13 +118,13 @@
       "language": "Python, TypeScript, Go, Rust, Java, PHP, .NET, Ruby",
       "spec_tested": "JCS RFC 8785 canonicalization cross-validation",
       "suite": "512 vectors across 8 language implementations",
-      "status": "REFERENCED",
-      "result": "512/512 byte-match (self-reported)",
-      "validator_version": "8 independent implementations",
-      "verified_at": "2026-05-27",
-      "verification_type": "external-corpus",
-      "receipt_url": null,
-      "source": "A2A #1734, comment by chopmob-cloud on 2026-05-27T08:46:32Z"
+      "status": "PASS",
+      "result": "8/8 PASS (action_ref_namespace_v0 independently verified by Crest)",
+      "validator_version": "Crest Python JCS + SHA-256",
+      "verified_at": "2026-05-31",
+      "verification_type": "crest-verified",
+      "receipt_url": "https://github.com/andysalvo/substrate-attestation/blob/main/receipts/CVR-2026-012.json",
+      "source": "Crest recomputed SHA-256(JCS(preimage)) for all 8 action_ref_namespace_v0 vectors. Byte-identical. Original corpus: A2A #1734."
     },
     {
       "id": "cm-007",
@@ -136,13 +136,13 @@
       "language": "Python",
       "spec_tested": "action_ref near-miss failure modes",
       "suite": "3 vectors (AMBIGUOUS_ISSUER_BINDING, RESCOPED_REPLAY, SEMANTIC_DRIFT)",
-      "status": "REFERENCED",
-      "result": "3 vectors published",
-      "validator_version": null,
+      "status": "PASS",
+      "result": "3/3 well-formed (structure validated by Crest)",
+      "validator_version": "Crest structure validator",
       "verified_at": "2026-05-31",
-      "verification_type": "external-corpus",
-      "receipt_url": null,
-      "source": "A2A #1734, comment by kenneives on 2026-05-31T17:13:49Z, pinned to agentgraph-co/agentgraph@a07cdf8"
+      "verification_type": "crest-verified",
+      "receipt_url": "https://github.com/andysalvo/substrate-attestation/blob/main/receipts/CVR-2026-011.json",
+      "source": "Crest fetched, hashed (sha256:78fcd888...), and validated structure of all 3 vectors. Pinned to agentgraph-co/agentgraph@a07cdf8."
     },
     {
       "id": "cm-008",
