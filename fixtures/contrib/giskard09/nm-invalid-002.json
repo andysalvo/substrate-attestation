@@ -1,0 +1,19 @@
+{
+  "id": "nm-invalid-002",
+  "name": "Rescoped replay",
+  "description": "Attestation issued for scope 'urn:scope:read' is presented against 'urn:scope:write'. Recomputing action_ref over the presented tuple diverges from the embedded action_ref — the scope binding is broken. A conforming verifier MUST recompute over the presented tuple and reject on mismatch.",
+  "category": "near-miss",
+  "expected": "INVALID_SEMANTIC",
+  "validation_level": "semantic",
+  "attestation": {
+    "substrate_attestation": {
+      "url": "https://agentgraph.co/.well-known/action-ref-near-miss-vectors.json",
+      "content_hash": "sha256:see-commit-pin",
+      "verifier": "giskard09/argentum-core@1d7b5fb"
+    }
+  },
+  "failure_mode": "RESCOPED_REPLAY",
+  "note": "scope is in the action_ref preimage precisely so a rescoped presentation cannot reuse a stale reference. Normalizing-then-matching would mask the drift; fail-closed surfaces it.",
+  "contributed_by": "giskard09",
+  "spec_ref": "argentum-core/action-ref-v1 near-miss-v1 @ 1d7b5fb — examples/conformance/near-miss-v1/"
+}
