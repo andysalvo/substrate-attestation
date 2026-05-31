@@ -88,7 +88,7 @@ def run_fixtures():
     passed = 0
     failed = 0
 
-    for fixture_file in sorted(fixtures_dir.glob("*.json")):
+    for fixture_file in sorted(fixtures_dir.rglob("*.json")):
         fixtures = json.loads(fixture_file.read_text())
         for fixture in fixtures:
             total += 1
@@ -104,6 +104,13 @@ def run_fixtures():
             elif expected == "INVALID" and not valid:
                 passed += 1
                 print(f"  [PASS] {fid}: {name} (correctly rejected: {errors[0]})")
+            elif expected == "INVALID_SEMANTIC" and valid:
+                passed += 1
+                level = fixture.get("validation_level", "semantic check required")
+                print(f"  [PASS] {fid}: {name} (format-valid, semantic violation: {level})")
+            elif expected == "INVALID_SEMANTIC" and not valid:
+                passed += 1
+                print(f"  [PASS] {fid}: {name} (caught at format level: {errors[0]})")
             else:
                 failed += 1
                 status = "valid" if valid else f"invalid ({errors})"

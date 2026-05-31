@@ -1,0 +1,42 @@
+[
+  {
+    "id": "kr-valid-001",
+    "name": "did:aip with rotated-but-still-valid key (history chain)",
+    "description": "The subject DID is did:aip. The verificationMethod references a previous key that has been rotated but remains valid in the on-chain history chain. The current active key is different, but the prior key was valid at the time the receipt was issued. A strict validator that rejects all non-current keys would wrongly reject this attestation.",
+    "expected": "VALID",
+    "finding_attribution": "Edge case identified by Liuyanfeng1234 (Agent OS) on A2A Discussion #1734, 2026-05-31",
+    "attestation": {
+      "substrate_attestation": {
+        "url": "https://verify.example.com/receipt-rotated-key.json",
+        "content_hash": "sha256:11aa22bb33cc44dd55ee66ff77889900aabbccddeeff00112233445566778899",
+        "verifier": "did:aip:devnet:7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU"
+      }
+    },
+    "key_state": {
+      "signing_key_at_issuance": "key_v1 (now rotated)",
+      "current_active_key": "key_v2",
+      "key_v1_status": "rotated, valid in history chain, not revoked",
+      "resolution_behavior": "DID Document resolves to key_v2 as active; key_v1 accessible via history chain query"
+    },
+    "rationale": "A conformance validator MUST NOT reject a receipt solely because the signing key has been rotated, IF the key was valid at issuance and remains unrevoked in the history chain. The validator SHOULD check the key's validity at the time the receipt was issued, not at resolution time."
+  },
+  {
+    "id": "kr-valid-002",
+    "name": "did:web with key rotation via DID Document update",
+    "description": "The verifier's did:web DID Document was updated to rotate keys. The receipt was signed with the prior key. The prior key is still listed in the DID Document's verificationMethod array (demoted from primary but not removed).",
+    "expected": "VALID",
+    "attestation": {
+      "substrate_attestation": {
+        "url": "https://verify.example.com/receipt-web-rotated.json",
+        "content_hash": "sha256:aabb1122ccdd3344eeff5566aabb1122ccdd3344eeff5566aabb1122ccdd3344",
+        "verifier": "did:web:verify.example.com"
+      }
+    },
+    "key_state": {
+      "signing_key_at_issuance": "key_alpha (demoted but present in DID Doc)",
+      "current_primary_key": "key_beta",
+      "key_alpha_status": "demoted, still in verificationMethod array, not removed"
+    },
+    "rationale": "Key rotation in did:web happens via DID Document updates. If the prior key is still listed (even if demoted), receipts signed with it remain valid."
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "id": "vb-valid-001",
+    "name": "Verdict record binding with did:web verifier",
+    "description": "content_hash binds to the tamper-proof verdict record, not to the detected content itself. The receipt at url IS the verdict; the hash proves the verdict has not been altered.",
+    "expected": "VALID",
+    "attestation": {
+      "substrate_attestation": {
+        "url": "https://verify.crestsystems.ai/verify/x402-extension-conformance-v1.json",
+        "content_hash": "sha256:8cb7de949eca33fa4124bec426abfbc6a90a2e7ab08a6b3e8ee6e85fb3b2a1c4",
+        "verifier": "did:web:verify.crestsystems.ai"
+      }
+    },
+    "rationale": "The receipt contains the verifier's judgment (PASS/FAIL per vector). content_hash proves THIS judgment was issued, not that the underlying subject is correct."
+  },
+  {
+    "id": "vb-valid-002",
+    "name": "Verdict binding with did:aip verifier (enforcement layer)",
+    "description": "An enforcement verdict (boundary check) issued by a did:aip-identified agent. The verdict record says what boundary was hit; the attestation says the verdict exists and is tamper-proof.",
+    "expected": "VALID",
+    "attestation": {
+      "substrate_attestation": {
+        "url": "https://enforcement.example.com/verdicts/fetch-hop-001.json",
+        "content_hash": "sha256:a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2",
+        "verifier": "did:aip:devnet:7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU"
+      }
+    },
+    "rationale": "Enforcement verdicts (rule_type, pass/block) are a valid receipt type. The verifier DID identifies the enforcement agent. content_hash binds to the verdict, not the scanned payload."
+  },
+  {
+    "id": "vb-valid-003",
+    "name": "Verdict binding with coverage and version metadata in receipt",
+    "description": "The receipt (at url) contains version and coverage fields per enforcement layer design. The attestation envelope does not carry those fields -- they live in the receipt. The envelope only points to the receipt.",
+    "expected": "VALID",
+    "attestation": {
+      "substrate_attestation": {
+        "url": "https://guard.example.com/verdicts/session-abc.json",
+        "content_hash": "sha256:f0e1d2c3b4a5968778695a4b3c2d1e0ff0e1d2c3b4a5968778695a4b3c2d1e0f",
+        "verifier": "did:web:guard.example.com"
+      }
+    },
+    "rationale": "The envelope is intentionally minimal. Coverage fields, version fields, rule_type, detection details all live in the receipt body. The attestation is a pointer with integrity, not a container for enforcement metadata."
+  },
+  {
+    "id": "vb-valid-004",
+    "name": "Composition: attestation verifier + enforcement verifier are different DIDs",
+    "description": "The attestation was issued by a conformance verifier. The receipt it points to may reference enforcement verdicts from a different DID. The verifier field identifies who issued THIS attestation, not who ran the enforcement.",
+    "expected": "VALID",
+    "attestation": {
+      "substrate_attestation": {
+        "url": "https://verify.crestsystems.ai/composed-verdict-001.json",
+        "content_hash": "sha256:1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b",
+        "verifier": "did:web:verify.crestsystems.ai"
+      }
+    },
+    "rationale": "The verifier field identifies the attestation issuer. If the receipt references enforcement verdicts from did:aip agents, those are cited INSIDE the receipt, not in the envelope. Clean layer separation."
+  }
+]

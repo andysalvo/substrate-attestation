@@ -1,0 +1,42 @@
+[
+  {
+    "id": "kr-invalid-001",
+    "name": "did:aip with fully revoked key",
+    "description": "The signing key has been revoked (on-chain account closed / key removed from DID Document entirely). Unlike rotation where the prior key remains in the history chain, revocation means the key is no longer valid for any purpose.",
+    "expected": "INVALID_SEMANTIC",
+    "reason": "A revoked key is not a rotated key. Revocation = key removed from all resolution paths. Receipts signed with revoked keys MUST be rejected.",
+    "validation_level": "requires DID resolution (not detectable by format-only validator)",
+    "attestation": {
+      "substrate_attestation": {
+        "url": "https://verify.example.com/receipt-revoked-key.json",
+        "content_hash": "sha256:dead0000dead0000dead0000dead0000dead0000dead0000dead0000dead0000",
+        "verifier": "did:aip:devnet:RevokedAgentAddress123456789"
+      }
+    },
+    "key_state": {
+      "signing_key": "key_revoked",
+      "revocation_status": "on-chain account closed, DID no longer resolves",
+      "resolution_behavior": "DID resolution fails entirely"
+    }
+  },
+  {
+    "id": "kr-invalid-002",
+    "name": "did:web with key removed from DID Document",
+    "description": "The signing key was not just rotated -- it was completely removed from the DID Document's verificationMethod array. The key no longer exists in any resolution path.",
+    "expected": "INVALID_SEMANTIC",
+    "reason": "Key not present in DID Document at all. Unlike kr-valid-002 where the key was demoted but present, here the key is gone. Receipt signed with a non-existent key MUST be rejected.",
+    "validation_level": "requires DID resolution (not detectable by format-only validator)",
+    "attestation": {
+      "substrate_attestation": {
+        "url": "https://verify.example.com/receipt-removed-key.json",
+        "content_hash": "sha256:baadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00d",
+        "verifier": "did:web:verify.example.com"
+      }
+    },
+    "key_state": {
+      "signing_key": "key_gamma (removed)",
+      "current_keys_in_did_doc": ["key_delta"],
+      "key_gamma_status": "not present in any verificationMethod"
+    }
+  }
+]

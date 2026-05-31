@@ -1,0 +1,64 @@
+[
+  {
+    "id": "vb-invalid-001",
+    "name": "content_hash binds to detected content instead of verdict record",
+    "description": "The hash points to the raw scanned payload, not to the verdict. This breaks the composition model: the attestation should prove the verdict exists, not fingerprint the content.",
+    "expected": "INVALID_SEMANTIC",
+    "reason": "content_hash must bind to the receipt (verdict record) at url, not to the scanned content. Binding to detected content exposes enforcement internals and creates a bypass map.",
+    "attestation": {
+      "substrate_attestation": {
+        "url": "https://guard.example.com/verdicts/session-xyz.json",
+        "content_hash": "sha256:deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef",
+        "verifier": "did:web:guard.example.com"
+      }
+    },
+    "note": "This fixture is structurally valid but semantically wrong. The hash matches the SCANNED CONTENT, not the VERDICT at the url. A validator checking only format would pass this; a validator checking hash-against-url would fail it.",
+    "validation_level": "requires url fetch or receipt inspection (not detectable by format-only validator)"
+  },
+  {
+    "id": "vb-invalid-002",
+    "name": "Verdict url returns non-JSON (HTML error page)",
+    "description": "The url resolves but returns an HTML error page instead of a JSON verdict record.",
+    "expected": "INVALID_SEMANTIC",
+    "reason": "url must return application/json. An HTML response is not a valid verdict record.",
+    "attestation": {
+      "substrate_attestation": {
+        "url": "https://example.com/404.html",
+        "content_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "verifier": "did:web:verify.example.com"
+      }
+    },
+    "validation_level": "requires url fetch or receipt inspection (not detectable by format-only validator)"
+  },
+  {
+    "id": "vb-invalid-003",
+    "name": "Verifier DID does not match receipt issuer",
+    "description": "The verifier field says did:web:alice.example but the receipt at url was signed by did:web:bob.example. The attestation envelope claims a verifier that did not produce the receipt.",
+    "expected": "INVALID_SEMANTIC",
+    "reason": "verifier must identify the entity that produced the receipt. Mismatch between envelope verifier and receipt issuer is a binding violation.",
+    "attestation": {
+      "substrate_attestation": {
+        "url": "https://verify.bob.example/receipt-123.json",
+        "content_hash": "sha256:aabbccdd11223344aabbccdd11223344aabbccdd11223344aabbccdd11223344",
+        "verifier": "did:web:alice.example"
+      }
+    },
+    "validation_level": "requires url fetch or receipt inspection (not detectable by format-only validator)"
+  },
+  {
+    "id": "vb-invalid-004",
+    "name": "Empty verdict record (zero-byte response)",
+    "description": "The url returns a 200 with zero bytes. No verdict exists.",
+    "expected": "INVALID_SEMANTIC",
+    "reason": "A zero-byte response is not a valid verdict record. content_hash of empty content is the SHA-256 null hash, which should be treated as suspicious.",
+    "attestation": {
+      "substrate_attestation": {
+        "url": "https://verify.example.com/empty",
+        "content_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "verifier": "did:web:verify.example.com"
+      }
+    },
+    "note": "sha256:e3b0c44... is the hash of empty input. A conformance suite SHOULD flag this as a degenerate case even though the hash technically matches.",
+    "validation_level": "requires url fetch or receipt inspection (not detectable by format-only validator)"
+  }
+]

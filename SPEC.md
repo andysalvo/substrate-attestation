@@ -1,9 +1,13 @@
-# Substrate Attestation Specification v0.1
+# Substrate Attestation Specification v0.2
 
 **Status:** Draft
 **Authors:** Andy Salvo (Crest Deployment Systems LLC)
 **Origin:** A2A Discussion #1734 (CTEF RFC), Issue #1672 (Agent Identity Verification)
 **First production binding:** commit [74764f2](https://github.com/aeoess/agent-governance-vocabulary/commit/74764f2) (2026-05-27)
+
+### Changelog
+- **v0.2 (2026-05-31):** Added verdict-binding fixtures (4 valid, 4 invalid), key-rotation fixtures (2 valid, 2 invalid, edge case attributed to Liuyanfeng1234), clarified content_hash binding semantics, nonce window language changed to RECOMMENDED.
+- **v0.1 (2026-05-31):** Initial spec, 12 base fixtures, conformance validator.
 
 ---
 
@@ -55,6 +59,12 @@ Those judgments belong to the consumer, not the attestation.
 3. **Method agnosticism.** The `verifier` field accepts any valid DID. Consumers MUST NOT reject an attestation solely because the DID method is unfamiliar. Consumers MAY choose not to trust a particular verifier, but that is a policy decision, not a format violation.
 
 4. **No schema absorption.** The attestation carries no per-implementation policy, no scoring thresholds, no enforcement rules. It is a pointer to evidence, not a judgment.
+
+5. **Verdict-record binding.** The `content_hash` field binds to the verdict record (the receipt at `url`), NOT to the underlying content that was verified. This is a deliberate design choice: the attestation proves a verdict was issued and is tamper-proof. It does not fingerprint the scanned content, which would expose enforcement internals and create a bypass map. Enforcement details (rule types, detection patterns, coverage fields, version identifiers) live inside the receipt body, not in the attestation envelope.
+
+6. **Key rotation tolerance.** A consumer MUST NOT reject an attestation solely because the `verifier` DID's signing key has been rotated since the receipt was issued. If the key was valid at the time of issuance and remains unrevoked (present in a history chain or listed in the DID Document), the attestation is valid. A fully revoked key (removed from all resolution paths) is grounds for rejection. The distinction between rotation (key demoted but accessible) and revocation (key removed entirely) is load-bearing.
+
+7. **Nonce window (RECOMMENDED).** When attestations are used in contexts that enforce replay protection (e.g., CTEF gateways with nonce validation), a sliding window of RECOMMENDED 300 seconds is a practical ceiling based on production experience. This spec does not mandate a specific window size; deployments SHOULD document their chosen window. Rationale: AlgoVoi production data (cited via A2A #1829) demonstrates that 300s balances state-tracking overhead against replay risk.
 
 ---
 
