@@ -37,11 +37,19 @@ Those judgments belong to the consumer, not the attestation.
 python3 validate.py
 ```
 
-12 fixtures (3 valid + 9 invalid). The validator checks: field presence, hash format, DID syntax, URL scheme. Optional `--verify-hash` flag fetches the URL and verifies the content hash.
+24 fixtures across format, verdict-binding, and key-rotation categories. The validator checks: field presence, hash format, DID syntax, URL scheme. Optional `--verify-hash` flag fetches the URL and verifies the content hash.
 
 ```bash
 python3 validate.py --check '{"substrate_attestation": {"url": "https://...", "content_hash": "sha256:...", "verifier": "did:web:..."}}'
 ```
+
+## Compatibility Matrix
+
+[matrix.json](matrix.json) tracks who has been verified against what. 8 entries across 7 projects.
+
+## Contributing Fixtures
+
+See [FIXTURE_SCHEMA.md](FIXTURE_SCHEMA.md) for the canonical fixture format. Third-party fixtures go in `fixtures/contrib/`. PRs welcome.
 
 ## Origin
 
