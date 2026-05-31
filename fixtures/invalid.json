@@ -1,0 +1,112 @@
+[
+  {
+    "id": "invalid-001",
+    "name": "Missing url field",
+    "expected": "INVALID",
+    "reason": "url is required",
+    "attestation": {
+      "substrate_attestation": {
+        "content_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "verifier": "did:web:verify.example.com"
+      }
+    }
+  },
+  {
+    "id": "invalid-002",
+    "name": "Missing content_hash field",
+    "expected": "INVALID",
+    "reason": "content_hash is required",
+    "attestation": {
+      "substrate_attestation": {
+        "url": "https://example.com/receipt.json",
+        "verifier": "did:web:verify.example.com"
+      }
+    }
+  },
+  {
+    "id": "invalid-003",
+    "name": "Missing verifier field",
+    "expected": "INVALID",
+    "reason": "verifier is required",
+    "attestation": {
+      "substrate_attestation": {
+        "url": "https://example.com/receipt.json",
+        "content_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  },
+  {
+    "id": "invalid-004",
+    "name": "content_hash missing algorithm prefix",
+    "expected": "INVALID",
+    "reason": "content_hash must be formatted as algorithm:hex_digest",
+    "attestation": {
+      "substrate_attestation": {
+        "url": "https://example.com/receipt.json",
+        "content_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "verifier": "did:web:verify.example.com"
+      }
+    }
+  },
+  {
+    "id": "invalid-005",
+    "name": "content_hash uses unsupported algorithm",
+    "expected": "INVALID",
+    "reason": "only sha256 is supported",
+    "attestation": {
+      "substrate_attestation": {
+        "url": "https://example.com/receipt.json",
+        "content_hash": "md5:d41d8cd98f00b204e9800998ecf8427e",
+        "verifier": "did:web:verify.example.com"
+      }
+    }
+  },
+  {
+    "id": "invalid-006",
+    "name": "verifier is not a valid DID",
+    "expected": "INVALID",
+    "reason": "verifier must be a valid DID (did:method:specific-id)",
+    "attestation": {
+      "substrate_attestation": {
+        "url": "https://example.com/receipt.json",
+        "content_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "verifier": "https://verify.example.com"
+      }
+    }
+  },
+  {
+    "id": "invalid-007",
+    "name": "url is HTTP (not HTTPS)",
+    "expected": "INVALID",
+    "reason": "url must use HTTPS",
+    "attestation": {
+      "substrate_attestation": {
+        "url": "http://example.com/receipt.json",
+        "content_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "verifier": "did:web:verify.example.com"
+      }
+    }
+  },
+  {
+    "id": "invalid-008",
+    "name": "content_hash hex digest is uppercase",
+    "expected": "INVALID",
+    "reason": "hex digest must be lowercase",
+    "attestation": {
+      "substrate_attestation": {
+        "url": "https://example.com/receipt.json",
+        "content_hash": "sha256:E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+        "verifier": "did:web:verify.example.com"
+      }
+    }
+  },
+  {
+    "id": "invalid-009",
+    "name": "Empty substrate_attestation object",
+    "expected": "INVALID",
+    "reason": "all three fields are required",
+    "attestation": {
+      "substrate_attestation": {}
+    }
+  }
+]

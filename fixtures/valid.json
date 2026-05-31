@@ -1,0 +1,41 @@
+[
+  {
+    "id": "valid-001",
+    "name": "Complete attestation with did:web verifier",
+    "expected": "VALID",
+    "attestation": {
+      "substrate_attestation": {
+        "url": "https://verify.crestsystems.ai/verify/agent-os-substrate-v1.json",
+        "content_hash": "sha256:2e120d42102269b2214d61b9fb0bf244372da5a04502fa69ce7e890317e1e367",
+        "verifier": "did:web:verify.crestsystems.ai"
+      }
+    },
+    "checks": ["url_present", "content_hash_format", "verifier_did_syntax", "url_returns_json"]
+  },
+  {
+    "id": "valid-002",
+    "name": "Attestation with did:key verifier",
+    "expected": "VALID",
+    "attestation": {
+      "substrate_attestation": {
+        "url": "https://example.com/receipt.json",
+        "content_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "verifier": "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"
+      }
+    },
+    "checks": ["url_present", "content_hash_format", "verifier_did_syntax"]
+  },
+  {
+    "id": "valid-003",
+    "name": "Attestation with did:aip verifier (Solana)",
+    "expected": "VALID",
+    "attestation": {
+      "substrate_attestation": {
+        "url": "https://example.com/aip-receipt.json",
+        "content_hash": "sha256:abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890",
+        "verifier": "did:aip:devnet:7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU"
+      }
+    },
+    "checks": ["url_present", "content_hash_format", "verifier_did_syntax"]
+  }
+]
