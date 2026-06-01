@@ -1,0 +1,52 @@
+{
+  "schema": "crest-verification-receipt-v1",
+  "report_id": "CVR-2026-013",
+  "subject": "CTEF canonicalizer byte-match",
+  "verifier": "did:web:verify.crestsystems.ai",
+  "tool": "rfc8785 Python (v0.1.4)",
+  "source_url": "https://agentgraph.co/.well-known/cte-test-vectors.json",
+  "source_hash": "sha256:b655d1b3e7aeccb8b75517c1efc46d2dbf6759dea07581a1b39d4ab59baa7046",
+  "near_miss_url": "https://agentgraph.co/.well-known/action-ref-near-miss-vectors.json",
+  "near_miss_hash": "sha256:78fcd888b2a3a649c4de99cae0c1af6f639c1b79866b1c7f6e5fc91368b37e32",
+  "result": {
+    "total": 4,
+    "pass": 4,
+    "fail": 0,
+    "status": "PASS"
+  },
+  "vectors": [
+    {
+      "id": "envelope_vector",
+      "status": "pass",
+      "our_hash": "9e7b5031e46de38b5f90e895113a3f24f42a4128d8d99856a2d71e529b0f0d5c",
+      "byte_match": true,
+      "hash_match": true,
+      "expected_result": "pass"
+    },
+    {
+      "id": "verdict_vector",
+      "status": "pass",
+      "our_hash": "feb42dca4214fc46207138d676ec727d7b3d0caa1eda8c0390d2d6f6fbc28913",
+      "byte_match": true,
+      "hash_match": true,
+      "expected_result": "pass"
+    },
+    {
+      "id": "scope_violation_vector",
+      "status": "pass",
+      "our_hash": "e584f1cd0885dc938da5fc23ce7e528715a0086e5464c9ed0f3c1c82b364026f",
+      "byte_match": true,
+      "hash_match": true,
+      "expected_result": "fail-closed"
+    },
+    {
+      "id": "composition_failure_vector",
+      "status": "pass",
+      "our_hash": "f9cd10bc4e8bf34ce3aa6a0e5df0d27989e54ff41c4333c69ae3ecfaf8de0cb5",
+      "byte_match": true,
+      "hash_match": true,
+      "expected_result": "fail-closed"
+    }
+  ],
+  "content_hash": "sha256:099f0db7b5f9f6eaa5c9da0a401a2d29c8dfda395db4f53a29eec815eabec19e"
+}
