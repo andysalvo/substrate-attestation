@@ -136,7 +136,7 @@ fetch('/matrix.json?' + Date.now())
         <td class="suite">${e.spec_tested || e.suite || ''}</td>
         <td class="result ${sc}">${e.result}</td>
         <td style="font-size:0.75rem;color:#666">${e.verified_at || '--'}${receiptLink ? '<br>' + receiptLink : ''}</td>
-        <td class="badge-cell">${e.badge_url ? '<img src="' + e.badge_url + '" alt="CREST conformance badge"/><div class="embed-code" onclick="navigator.clipboard.writeText(this.textContent).then(()=>this.style.color=\'#4ade80\')" title="Click to copy">' + (e.badge_markdown || '') + '</div>' : ''}</td>
+        <td class="badge-cell">${e.badge_url ? '<img src="' + e.badge_url.replace('/badge/', '/badge/matrix/') + '" alt="CREST conformance badge"/><div class="embed-code" onclick="navigator.clipboard.writeText(this.textContent).then(()=>this.style.color=\'#4ade80\')" title="Click to copy">' + (e.badge_markdown || '') + '</div>' : ''}</td>
         <td class="notes">${truncate(e.source || e.notes || '', 100)}</td>
       `;
       tbody.appendChild(tr);
