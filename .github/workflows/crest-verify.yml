@@ -15,3 +15,5 @@ jobs:
         with:
           endpoint: https://verify.crestsystems.ai
           matrix-id: cm-001
+          publish: true
+          submit-key: ${{ secrets.CREST_SUBMIT_KEY }}
