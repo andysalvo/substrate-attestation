@@ -1,0 +1,17 @@
+name: Crest Verify
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: andysalvo/crest-verify-action@v1
+        id: crest
+        with:
+          endpoint: https://verify.crestsystems.ai
+          matrix-id: cm-001

@@ -49,6 +49,18 @@ python3 validate.py --check '{"substrate_attestation": {"url": "https://...", "c
 
 [matrix.json](matrix.json) tracks who has been verified against what. 8 entries across 7 projects.
 
+## CI Verification
+
+Run Crest verification on every push:
+
+```yaml
+- uses: andysalvo/crest-verify-action@v1
+  with:
+    endpoint: https://your-service.com
+```
+
+Step summary, PR comments, badge output. [Action docs](https://github.com/andysalvo/crest-verify-action).
+
 ## Contributing Fixtures
 
 See [FIXTURE_SCHEMA.md](FIXTURE_SCHEMA.md) for the canonical fixture format. Third-party fixtures go in `fixtures/contrib/`. PRs welcome.
