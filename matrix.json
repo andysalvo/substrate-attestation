@@ -1,6 +1,6 @@
 {
   "schema": "conformance-matrix-v1",
-  "updated_at": "2026-05-31T21:20:00Z",
+  "updated_at": "2026-06-01T08:30:00Z",
   "publisher": "Crest Deployment Systems LLC",
   "publisher_url": "https://crestsystems.ai",
   "description": "Conformance matrix for substrate_attestation and related verification surfaces. Only publicly verifiable data. Self-reported results cite the public thread or commit where they were stated.",
@@ -34,7 +34,9 @@
       "verified_at": "2026-05-31",
       "verification_type": "crest-verified",
       "receipt_url": null,
-      "source": "Self-test against own spec"
+      "source": "Self-test against own spec",
+      "badge_url": "https://verify.crestsystems.ai/badge/cm-001.svg",
+      "badge_markdown": "[![CREST conformance](https://verify.crestsystems.ai/badge/cm-001.svg)](https://verify.crestsystems.ai/matrix)"
     },
     {
       "id": "cm-002",
@@ -52,7 +54,9 @@
       "verified_at": "2026-05-26",
       "verification_type": "crest-verified",
       "receipt_url": "https://verify.crestsystems.ai/ap2-omh-v0-results.json",
-      "source": "JCS bug fix documented in CVR-2026-001"
+      "source": "JCS bug fix documented in CVR-2026-001",
+      "badge_url": "https://verify.crestsystems.ai/badge/cm-002.svg",
+      "badge_markdown": "[![CREST conformance](https://verify.crestsystems.ai/badge/cm-002.svg)](https://verify.crestsystems.ai/matrix)"
     },
     {
       "id": "cm-003",
@@ -70,7 +74,9 @@
       "verified_at": "2026-05-28",
       "verification_type": "crest-verified",
       "receipt_url": "https://verify.crestsystems.ai/aura-conformance-v0.json",
-      "source": "x402 #2332, V3 UTF-8 bug was submitter-side (corrected 2026-05-28)"
+      "source": "x402 #2332, V3 UTF-8 bug was submitter-side (corrected 2026-05-28)",
+      "badge_url": "https://verify.crestsystems.ai/badge/cm-003.svg",
+      "badge_markdown": "[![CREST conformance](https://verify.crestsystems.ai/badge/cm-003.svg)](https://verify.crestsystems.ai/matrix)"
     },
     {
       "id": "cm-004",
@@ -88,7 +94,9 @@
       "verified_at": "2026-05-31",
       "verification_type": "crest-verified",
       "receipt_url": "https://github.com/andysalvo/substrate-attestation/blob/main/receipts/CVR-2026-010.json",
-      "source": "Agent OS self-reported 24/24 on #1734. Crest independently ran same suite, confirmed 24/24 PASS."
+      "source": "Agent OS self-reported 24/24 on #1734. Crest independently ran same suite, confirmed 24/24 PASS.",
+      "badge_url": "https://verify.crestsystems.ai/badge/cm-004.svg",
+      "badge_markdown": "[![CREST conformance](https://verify.crestsystems.ai/badge/cm-004.svg)](https://verify.crestsystems.ai/matrix)"
     },
     {
       "id": "cm-005",
@@ -106,7 +114,9 @@
       "verified_at": "2026-05-28",
       "verification_type": "self-reported",
       "receipt_url": null,
-      "source": "A2A #1850, co-signed by Nobulex (arian-gogani) at nobulex#5"
+      "source": "A2A #1850, co-signed by Nobulex (arian-gogani) at nobulex#5",
+      "badge_url": "https://verify.crestsystems.ai/badge/cm-005.svg",
+      "badge_markdown": "[![CREST conformance](https://verify.crestsystems.ai/badge/cm-005.svg)](https://verify.crestsystems.ai/matrix)"
     },
     {
       "id": "cm-006",
@@ -124,7 +134,9 @@
       "verified_at": "2026-05-31",
       "verification_type": "crest-verified",
       "receipt_url": "https://github.com/andysalvo/substrate-attestation/blob/main/receipts/CVR-2026-012.json",
-      "source": "Crest recomputed SHA-256(JCS(preimage)) for all 8 action_ref_namespace_v0 vectors. Byte-identical. Original corpus: A2A #1734."
+      "source": "Crest recomputed SHA-256(JCS(preimage)) for all 8 action_ref_namespace_v0 vectors. Byte-identical. Original corpus: A2A #1734.",
+      "badge_url": "https://verify.crestsystems.ai/badge/cm-006.svg",
+      "badge_markdown": "[![CREST conformance](https://verify.crestsystems.ai/badge/cm-006.svg)](https://verify.crestsystems.ai/matrix)"
     },
     {
       "id": "cm-007",
@@ -142,7 +154,9 @@
       "verified_at": "2026-05-31",
       "verification_type": "crest-verified",
       "receipt_url": "https://github.com/andysalvo/substrate-attestation/blob/main/receipts/CVR-2026-011.json",
-      "source": "Crest fetched, hashed (sha256:78fcd888...), and validated structure of all 3 vectors. Pinned to agentgraph-co/agentgraph@a07cdf8."
+      "source": "Crest fetched, hashed (sha256:78fcd888...), and validated structure of all 3 vectors. Pinned to agentgraph-co/agentgraph@a07cdf8.",
+      "badge_url": "https://verify.crestsystems.ai/badge/cm-007.svg",
+      "badge_markdown": "[![CREST conformance](https://verify.crestsystems.ai/badge/cm-007.svg)](https://verify.crestsystems.ai/matrix)"
     },
     {
       "id": "cm-008",
@@ -160,7 +174,9 @@
       "verified_at": null,
       "verification_type": "self-reported",
       "receipt_url": null,
-      "source": "A2A #1734, comment by dr-wilson-empty on 2026-05-31T17:39:09Z (fixture pair offered)"
+      "source": "A2A #1734, comment by dr-wilson-empty on 2026-05-31T17:39:09Z (fixture pair offered)",
+      "badge_url": "https://verify.crestsystems.ai/badge/cm-008.svg",
+      "badge_markdown": "[![CREST conformance](https://verify.crestsystems.ai/badge/cm-008.svg)](https://verify.crestsystems.ai/matrix)"
     },
     {
       "id": "cm-009",
@@ -178,7 +194,9 @@
       "verified_at": null,
       "verification_type": "self-reported",
       "receipt_url": null,
-      "source": "A2A #1672, comments by woshilaohei on 2026-05-31 (multiple, intent to build to match + crosswalk submission planned)"
+      "source": "A2A #1672, comments by woshilaohei on 2026-05-31 (multiple, intent to build to match + crosswalk submission planned)",
+      "badge_url": "https://verify.crestsystems.ai/badge/cm-009.svg",
+      "badge_markdown": "[![CREST conformance](https://verify.crestsystems.ai/badge/cm-009.svg)](https://verify.crestsystems.ai/matrix)"
     }
   ]
 }

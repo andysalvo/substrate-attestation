@@ -1,5 +1,7 @@
 # substrate-attestation
 
+[![CREST conformance](https://verify.crestsystems.ai/badge/cm-001.svg)](https://verify.crestsystems.ai/matrix)
+
 A three-field shape for verifier-issued trust evidence in A2A agent ecosystems.
 
 ```json
