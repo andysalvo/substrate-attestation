@@ -1,0 +1,155 @@
+[
+  {
+    "id": "amb-001",
+    "name": "Two attestations from same infrastructure, different DIDs",
+    "expected": "INVALID",
+    "category": "ambiguous_issuer_binding",
+    "description": "Both attestations pass individual format and hash checks. Both use different verifier DIDs. But both DIDs resolve to endpoints hosted on the same infrastructure (same IP, same TLS certificate, same org). A correct verifier rejects the composition; a naive verifier accepts both as independent.",
+    "attestation_a": {
+      "substrate_attestation": {
+        "url": "https://verify-alpha.example.com/receipt/action-001.json",
+        "content_hash": "sha256:a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2",
+        "verifier": "did:web:verify-alpha.example.com"
+      }
+    },
+    "attestation_b": {
+      "substrate_attestation": {
+        "url": "https://verify-beta.example.com/receipt/action-001.json",
+        "content_hash": "sha256:a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2",
+        "verifier": "did:web:verify-beta.example.com"
+      }
+    },
+    "independence_signals": {
+      "same_content_hash": true,
+      "same_action_ref": true,
+      "shared_infrastructure": true,
+      "distinct_dids": true,
+      "independent": false
+    },
+    "checks": [
+      "attestation_a_format_valid",
+      "attestation_b_format_valid",
+      "content_hash_identical",
+      "verifier_dids_distinct",
+      "infrastructure_shared",
+      "composition_must_reject"
+    ],
+    "failure_mode": "A naive verifier accepts both as independent confirmation because the DIDs are different and both hashes match. A correct verifier detects the shared infrastructure and rejects the composition."
+  },
+  {
+    "id": "amb-002",
+    "name": "Same model, different wrapper -- attestation laundering",
+    "expected": "INVALID",
+    "category": "ambiguous_issuer_binding",
+    "description": "Verifier A and Verifier B both use the same underlying model/engine to produce their attestations, but present under different organizational identities. The attestations are not independent despite having different verifier DIDs and different URLs. This is attestation laundering: one opinion presented as two.",
+    "attestation_a": {
+      "substrate_attestation": {
+        "url": "https://verifier-one.example.org/attest/tx-500.json",
+        "content_hash": "sha256:deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef",
+        "verifier": "did:web:verifier-one.example.org"
+      }
+    },
+    "attestation_b": {
+      "substrate_attestation": {
+        "url": "https://verifier-two.example.net/attest/tx-500.json",
+        "content_hash": "sha256:cafebabecafebabecafebabecafebabecafebabecafebabecafebabecafebabe",
+        "verifier": "did:web:verifier-two.example.net"
+      }
+    },
+    "independence_signals": {
+      "same_content_hash": false,
+      "same_action_ref": true,
+      "shared_model": true,
+      "distinct_dids": true,
+      "distinct_domains": true,
+      "independent": false
+    },
+    "checks": [
+      "attestation_a_format_valid",
+      "attestation_b_format_valid",
+      "content_hashes_differ",
+      "verifier_dids_distinct",
+      "domains_distinct",
+      "underlying_model_shared",
+      "composition_must_reject"
+    ],
+    "failure_mode": "Even with different hashes and different domains, the attestations are not independent because the underlying verification engine is the same. Two outputs from one brain is one opinion, not two."
+  },
+  {
+    "id": "amb-003",
+    "name": "Circular attestation -- A attests B, B attests A",
+    "expected": "INVALID",
+    "category": "ambiguous_issuer_binding",
+    "description": "Verifier A produces an attestation for action X. Verifier B's attestation for the same action X cites Verifier A's attestation as input evidence. A naive composer treats this as two independent confirmations. A correct verifier detects the circular dependency and rejects.",
+    "attestation_a": {
+      "substrate_attestation": {
+        "url": "https://verifier-a.example.com/receipt/action-x.json",
+        "content_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+        "verifier": "did:web:verifier-a.example.com"
+      }
+    },
+    "attestation_b": {
+      "substrate_attestation": {
+        "url": "https://verifier-b.example.com/receipt/action-x.json",
+        "content_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+        "verifier": "did:web:verifier-b.example.com"
+      },
+      "evidence_refs": [
+        "https://verifier-a.example.com/receipt/action-x.json"
+      ]
+    },
+    "independence_signals": {
+      "same_content_hash": false,
+      "same_action_ref": true,
+      "circular_dependency": true,
+      "distinct_dids": true,
+      "independent": false
+    },
+    "checks": [
+      "attestation_a_format_valid",
+      "attestation_b_format_valid",
+      "evidence_refs_create_cycle",
+      "composition_must_reject"
+    ],
+    "failure_mode": "B's attestation depends on A's. Composing them double-counts A's opinion. This is the byte-match loop that aeoess identified: one agent posts a hash, the next confirms it, and the roster treats both as independent findings."
+  },
+  {
+    "id": "amb-004",
+    "name": "Genuine independent composition -- control vector",
+    "expected": "VALID",
+    "category": "ambiguous_issuer_binding",
+    "description": "Two genuinely independent verifiers attest the same action. Different infrastructure, different models, different organizations, no shared evidence chain. This is what correct composition looks like.",
+    "attestation_a": {
+      "substrate_attestation": {
+        "url": "https://crest-verify.example.com/receipt/action-y.json",
+        "content_hash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "verifier": "did:web:crest-verify.example.com"
+      }
+    },
+    "attestation_b": {
+      "substrate_attestation": {
+        "url": "https://independent-lab.example.org/receipt/action-y.json",
+        "content_hash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "verifier": "did:web:independent-lab.example.org"
+      }
+    },
+    "independence_signals": {
+      "same_content_hash": false,
+      "same_action_ref": true,
+      "shared_infrastructure": false,
+      "shared_model": false,
+      "circular_dependency": false,
+      "distinct_dids": true,
+      "independent": true
+    },
+    "checks": [
+      "attestation_a_format_valid",
+      "attestation_b_format_valid",
+      "no_shared_infrastructure",
+      "no_shared_model",
+      "no_circular_dependency",
+      "composition_should_accept"
+    ],
+    "failure_mode": "None. This is the correct case. A verifier that rejects this is too restrictive."
+  }
+]
