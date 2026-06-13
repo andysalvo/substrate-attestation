@@ -1,0 +1,19 @@
+{
+  "id": "nm-invalid-001",
+  "name": "Ambiguous issuer binding",
+  "description": "Two attestations share action_ref + subject + (claim_type, evidenceType) but differ in source_provider_did and disagree on the verdict. The four-tuple cannot select an authoritative issuer. A conforming verifier MUST reject — no injective (claim_type, evidenceType, source_provider_did) binding exists.",
+  "category": "near-miss",
+  "expected": "INVALID_SEMANTIC",
+  "validation_level": "semantic",
+  "attestation": {
+    "substrate_attestation": {
+      "url": "https://agentgraph.co/.well-known/action-ref-near-miss-vectors.json",
+      "content_hash": "sha256:see-commit-pin",
+      "verifier": "giskard09/argentum-core@1d7b5fb"
+    }
+  },
+  "failure_mode": "AMBIGUOUS_ISSUER_BINDING",
+  "note": "C1 discrimination-tuple injectivity boundary: (claim_type, evidenceType, source_provider_did) must uniquely bind a verdict to an issuer. Same action_ref with two issuers and disjoint verdicts is the non-injective case the boundary exists to reject.",
+  "contributed_by": "giskard09",
+  "spec_ref": "argentum-core/action-ref-v1 near-miss-v1 @ 1d7b5fb — examples/conformance/near-miss-v1/"
+}

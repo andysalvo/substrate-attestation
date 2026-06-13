@@ -1,0 +1,19 @@
+{
+  "id": "nm-invalid-003",
+  "name": "Semantic drift",
+  "description": "The same logical action carries action_type 'behavioral_eval' at issuance and 'behavioral' at verification — a real vocabulary drift documented in A2A #1786. Different preimage produces different action_ref for one action. A conforming verifier MUST treat action_type as a closed vocabulary and reject on mismatch.",
+  "category": "near-miss",
+  "expected": "INVALID_SEMANTIC",
+  "validation_level": "semantic",
+  "attestation": {
+    "substrate_attestation": {
+      "url": "https://agentgraph.co/.well-known/action-ref-near-miss-vectors.json",
+      "content_hash": "sha256:see-commit-pin",
+      "verifier": "giskard09/argentum-core@1d7b5fb"
+    }
+  },
+  "failure_mode": "SEMANTIC_DRIFT",
+  "note": "action_type MUST be drawn from a closed canonical vocabulary. Normalizing-then-matching would mask the drift and allow a verifier to silently accept a different action than was issued.",
+  "contributed_by": "giskard09",
+  "spec_ref": "argentum-core/action-ref-v1 near-miss-v1 @ 1d7b5fb — examples/conformance/near-miss-v1/"
+}
